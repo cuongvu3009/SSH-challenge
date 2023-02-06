@@ -14,7 +14,7 @@ function App() {
   };
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:5000/api/v1/games/${id}`);
+    axios.delete(`http://localhost:5000/api/v1/games`);
     location.reload();
   };
 

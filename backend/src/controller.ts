@@ -4,7 +4,7 @@ import pool from './server'
 
 const getAllGames = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await pool.query('SELECT * FROM games LIMIT 1')
+    const result = await pool.query('SELECT * FROM games')
     res.status(200).json(result.rows[0])
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -116,10 +116,9 @@ const setMove = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const deleteGame = async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params
   try {
-    await pool.query('DELETE FROM games WHERE id = $1', [id])
-    res.status(200).json({ message: 'Game deleted' })
+    await pool.query('DELETE FROM games')
+    res.status(200).json({ message: 'All game deleted' })
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

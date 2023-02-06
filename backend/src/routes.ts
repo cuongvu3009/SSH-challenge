@@ -13,6 +13,6 @@ router.get('/games', getAllGames)
 router.post('/games', createNewGame)
 router.get('/games/:id', getSingleGame)
 router.put('/games/:id', setMove)
-router.delete('/games/:id', deleteGame)
+router.delete('/games', deleteGame)
 
 export default router

@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { BadRequestError } from './helpers/apiError'
+import pool from './server'
 
 const getAllGames = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.send('get all games')
+    const result = await pool.query('SELECT * FROM games')
+    res.status(200).json(result.rows)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -19,7 +21,11 @@ const createNewGame = async (
   next: NextFunction
 ) => {
   try {
-    return res.send('get new game')
+    const result = await pool.query(
+      'INSERT INTO games (board, status) VALUES ($1, $2)',
+      ['---------', 'Running']
+    )
+    res.status(201).json(result.rows[0])
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -34,8 +40,10 @@ const getSingleGame = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { id } = req.params
   try {
-    return res.send('get single game')
+    const result = await pool.query('SELECT * FROM games WHERE id = $1', [id])
+    res.status(200).json(result.rows[0])
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -46,8 +54,11 @@ const getSingleGame = async (
 }
 
 const setMove = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params
+  const { board } = req.body
   try {
-    return res.send('set move')
+    await pool.query('UPDATE games SET board = $1 WHERE id = $2', [board, id])
+    res.status(200).json({ message: 'Game updated' })
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -58,8 +69,10 @@ const setMove = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const deleteGame = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params
   try {
-    return res.send('delete single game')
+    await pool.query('DELETE FROM games WHERE id = $1', [id])
+    res.status(200).json({ message: 'Game deleted' })
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

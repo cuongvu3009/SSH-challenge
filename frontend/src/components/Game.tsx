@@ -11,9 +11,11 @@ const Game = ({ id }: any) => {
     const fetchGame = async () => {
       const res = await axios.get(`http://localhost:5000/api/v1/games/${id}`);
       const game = res.data;
-      let winner = game.result;
+      const winner = game.result;
       if (winner) {
+        alert(`${winner} won`);
         setWinner(winner);
+        return;
       }
     };
     fetchGame();
@@ -35,7 +37,7 @@ const Game = ({ id }: any) => {
       setTurn('x');
     }
 
-    await setCells(squares);
+    setCells(squares);
     await axios.put(`http://localhost:5000/api/v1/games/${id}`, {
       board: squares,
     });
@@ -43,11 +45,6 @@ const Game = ({ id }: any) => {
 
   const Cell = ({ num }: { num: number }) => {
     return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
-  };
-
-  const handleReset = async () => {
-    axios.delete(`http://localhost:5000/api/v1/games/${id}`);
-    location.reload();
   };
 
   return (
@@ -72,12 +69,6 @@ const Game = ({ id }: any) => {
           </tr>
         </tbody>
       </table>
-      {winner && (
-        <>
-          <p>{winner} is the winner!</p>
-          <button onClick={() => handleReset()}>Play again</button>
-        </>
-      )}
     </div>
   );
 };

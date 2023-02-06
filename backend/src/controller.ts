@@ -94,7 +94,7 @@ const setMove = async (req: Request, res: Response, next: NextFunction) => {
         })
       }
 
-      if (result !== 'Draw') {
+      if (result === 'o' || result === 'x') {
         pool.query('UPDATE games SET result = $1, status = $2 WHERE id = $3', [
           result,
           `${result} won`,

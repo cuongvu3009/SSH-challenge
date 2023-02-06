@@ -23,7 +23,7 @@ function App() {
     <div className='App'>
       <h3>Create New Game</h3>
       {id ? (
-        <button onClick={() => handleDelete()}>Delete</button>
+        <button onClick={() => handleDelete()}>Play again</button>
       ) : (
         <button onClick={handleClick}>Create</button>
       )}

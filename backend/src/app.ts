@@ -6,6 +6,7 @@ import apiErrorHandler from './middlewares/apiErrorHandler'
 import compression from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
+import routers from './routes'
 
 const corsOptions = {
   origin: '*',
@@ -38,9 +39,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Use general router
-app.use('/api/v1', (req, res) => {
-  res.send('Hello World')
-})
+
+app.use('/api/v1', routers)
 
 // Custom API error handler
 app.use(apiErrorHandler)

@@ -1,54 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './game.css';
 
-const Game = () => {
+const Game = ({ id }: any) => {
   const [turn, setTurn] = useState('x');
   const [cells, setCells] = useState(Array(9).fill(''));
   const [winner, setWinner] = useState();
 
-  const checkForWinner = (squares: any) => {
-    let combos = {
-      across: [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-      ],
-      down: [
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-      ],
-      diagnol: [
-        [0, 4, 8],
-        [2, 4, 6],
-      ],
+  useEffect(() => {
+    const fetchGame = async () => {
+      const res = await axios.get(`http://localhost:5000/api/v1/games/${id}`);
+      const game = res.data;
+      let winner = game.result;
+      if (winner) {
+        setWinner(winner);
+      }
     };
+    fetchGame();
+  }, [winner, cells]);
 
-    for (let combo in combos) {
-      combos[combo].forEach((pattern: any) => {
-        if (
-          squares[pattern[0]] === '' ||
-          squares[pattern[1]] === '' ||
-          squares[pattern[2]] === ''
-        ) {
-          // do nothing
-        } else if (
-          squares[pattern[0]] === squares[pattern[1]] &&
-          squares[pattern[1]] === squares[pattern[2]]
-        ) {
-          setWinner(squares[pattern[0]]);
-        }
-      });
-    }
-  };
-
-  const handleClick = (num: number) => {
+  const handleClick = async (num: number) => {
     if (cells[num] !== '') {
       alert('already clicked');
       return;
     }
 
-    let squares = [...cells];
+    let squares: any = [...cells];
 
     if (turn === 'x') {
       squares[num] = 'x';
@@ -58,18 +35,24 @@ const Game = () => {
       setTurn('x');
     }
 
-    checkForWinner(squares);
-    setCells(squares);
+    await setCells(squares);
+    await axios.put(`http://localhost:5000/api/v1/games/${id}`, {
+      board: squares,
+    });
   };
 
   const Cell = ({ num }: { num: number }) => {
     return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
   };
 
+  const handleReset = async () => {
+    axios.delete(`http://localhost:5000/api/v1/games/${id}`);
+    location.reload();
+  };
+
   return (
     <div className='container'>
       <table>
-        winner: {winner}
         Turn: x
         <tbody>
           <tr>
@@ -89,10 +72,12 @@ const Game = () => {
           </tr>
         </tbody>
       </table>
-      <>
-        <p>x is the winner!</p>
-        <button>Play Again</button>
-      </>
+      {winner && (
+        <>
+          <p>{winner} is the winner!</p>
+          <button onClick={() => handleReset()}>Play again</button>
+        </>
+      )}
     </div>
   );
 };

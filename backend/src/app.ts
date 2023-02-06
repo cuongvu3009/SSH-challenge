@@ -10,7 +10,6 @@ import routers from './routes'
 
 const corsOptions = {
   origin: '*',
-  credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 }
 
@@ -23,7 +22,7 @@ app.use(cors(corsOptions))
 app.set('port', process.env.PORT || 1234)
 
 // Use common 3rd-party middlewares
-// app.use(compression())
+app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(lusca.xframe('SAMEORIGIN'))

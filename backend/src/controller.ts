@@ -77,15 +77,18 @@ const setMove = async (req: Request, res: Response, next: NextFunction) => {
         ],
       }
 
+      //	compare patern to check for winner
       for (const combo in combos) {
         combos[combo].forEach((pattern: any) => {
           if (
+            //	check if each char in each arr in combos is empty, if yes
             squares[pattern[0]] === '' ||
             squares[pattern[1]] === '' ||
             squares[pattern[2]] === ''
           ) {
             // do nothing
           } else if (
+            //	check if all char in each arr in combos has the same user ('x' or 'o')
             squares[pattern[0]] === squares[pattern[1]] &&
             squares[pattern[1]] === squares[pattern[2]]
           ) {

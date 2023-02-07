@@ -2,24 +2,31 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './game.css';
 
-const Game = ({ id }: any) => {
+const Game = ({ id }: any): any => {
   const [turn, setTurn] = useState('x');
   const [cells, setCells] = useState(Array(9).fill(''));
   const [winner, setWinner] = useState();
 
+  //	check winner
   useEffect(() => {
     const fetchGame = async () => {
-      const res = await axios.get(`http://localhost:5000/api/v1/games/${id}`);
-      const game = res.data;
-      const winner = game.result;
-      if (winner) {
-        alert(`${winner} won`);
-        setWinner(winner);
-      }
+      axios
+        .get(`http://localhost:5000/api/v1/games/${id}`)
+        .then((res) => {
+          const game = res.data;
+          console.log(game);
+          const winner = game?.result;
+          if (winner) {
+            alert(`${winner} won`);
+            setWinner(winner);
+          }
+        })
+        .catch((err) => console.log(err));
     };
     fetchGame();
   }, [winner, turn, cells]);
 
+  //	handle play
   const handleClick = async (num: number) => {
     if (cells[num] !== '') {
       alert('already clicked');
@@ -31,12 +38,14 @@ const Game = ({ id }: any) => {
     if (turn === 'x') {
       squares[num] = 'x';
       setTurn('o');
-    } else {
+    }
+    if (turn === 'o') {
       squares[num] = 'o';
       setTurn('x');
     }
 
     setCells(squares);
+
     await axios.put(`http://localhost:5000/api/v1/games/${id}`, {
       board: squares,
     });

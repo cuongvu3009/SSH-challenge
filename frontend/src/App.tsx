@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { createGame, deleteGame, getGames } from './api/games';
 import './App.css';
 import Game from './components/Game';
 
@@ -7,14 +8,13 @@ function App() {
   const [id, setId] = useState(null);
 
   const handleClick = async () => {
-    await axios.post('http://localhost:5000/api/v1/games');
-    const res = await axios.get('http://localhost:5000/api/v1/games');
-    const game = res.data;
+    createGame();
+    const game = await getGames();
     setId(game.id);
   };
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:5000/api/v1/games`);
+    deleteGame();
     location.reload();
   };
 

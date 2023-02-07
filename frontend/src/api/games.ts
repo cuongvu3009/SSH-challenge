@@ -1,6 +1,7 @@
 import axios from 'axios';
+import GameProps from '../types/gameType';
 
-export async function getGames() {
+export async function getGames(): Promise<GameProps> {
   return axios
     .get(`http://localhost:5000/api/v1/games`)
     .then((res) => res.data)

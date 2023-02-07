@@ -5,7 +5,7 @@ import './App.css';
 import Game from './components/Game';
 
 function App() {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState<number | null>(null);
 
   const handleClick = async () => {
     createGame();

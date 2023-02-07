@@ -3,9 +3,9 @@ import axios from 'axios';
 import './game.css';
 
 const Game = ({ id }: any): any => {
-  const [turn, setTurn] = useState('x');
-  const [cells, setCells] = useState(Array(9).fill(''));
-  const [winner, setWinner] = useState();
+  const [turn, setTurn] = useState<string | null>('x');
+  const [cells, setCells] = useState<string[]>(Array(9).fill(''));
+  const [winner, setWinner] = useState<string | null>();
 
   //	check winner
   useEffect(() => {

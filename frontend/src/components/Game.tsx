@@ -42,11 +42,6 @@ const Game = ({ id }: any) => {
     });
   };
 
-  if (cells.every((e) => e !== '')) {
-    alert('Draw!');
-    return;
-  }
-
   const Cell = ({ num }: { num: number }) => {
     return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
   };

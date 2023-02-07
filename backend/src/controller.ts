@@ -89,7 +89,7 @@ const setMove = async (req: Request, res: Response, next: NextFunction) => {
             squares[pattern[0]] === squares[pattern[1]] &&
             squares[pattern[1]] === squares[pattern[2]]
           ) {
-            result = squares[pattern[1]]
+            result = squares[pattern[0]]
           }
         })
       }

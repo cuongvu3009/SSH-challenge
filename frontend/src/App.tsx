@@ -18,12 +18,11 @@ function App() {
     location.reload();
   };
 
-  console.log('Game id', id);
   return (
     <div className='App'>
       <h3>Create New Game</h3>
       {id ? (
-        <button onClick={() => handleDelete()}>Play again</button>
+        <button onClick={handleDelete}>Play again</button>
       ) : (
         <button onClick={handleClick}>Create</button>
       )}

@@ -15,11 +15,10 @@ const Game = ({ id }: any) => {
       if (winner) {
         alert(`${winner} won`);
         setWinner(winner);
-        return;
       }
     };
     fetchGame();
-  }, [winner, cells]);
+  }, [winner, turn, cells]);
 
   const handleClick = async (num: number) => {
     if (cells[num] !== '') {
@@ -42,6 +41,11 @@ const Game = ({ id }: any) => {
       board: squares,
     });
   };
+
+  if (cells.every((e) => e !== '')) {
+    alert('Draw!');
+    return;
+  }
 
   const Cell = ({ num }: { num: number }) => {
     return <td onClick={() => handleClick(num)}>{cells[num]}</td>;

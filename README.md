@@ -58,6 +58,12 @@
 [x] Test endpoint PUT /games/:id<br>
 [x] Test endpoint DELETE /games/:id<br>
 
+### Game flow
+
+1. After user clicked start a new game: POST /games triggered to create a new game, then GET /games will return a created game, and an game id 
+2. Users's movements will be collected by PUT /games/:id, admin can access users's movement as well as board status, and winner info with GET /games/:id 
+3. If user clicked 'play again' button, all games will be deleted, nothing will be display till user create a new game. 
+
 ### Images
 
 ![Screenshot 2023-02-08 150429](https://user-images.githubusercontent.com/39565575/217539434-7305af99-d62c-4035-9804-402cfda0d9d4.png)   <br>

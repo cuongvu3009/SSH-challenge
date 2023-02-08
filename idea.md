@@ -17,3 +17,10 @@
         [2, 4, 6],
       ],
 ```
+
+Test:
+
+```sh
+yarn add -D jest supertest ts-jest @types/supertest @types/jest
+yarn ts-jest config:init
+```

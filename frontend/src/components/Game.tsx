@@ -15,6 +15,7 @@ const Game = ({ id }: any): any => {
         .then((res) => {
           const game = res.data;
           console.log(game);
+
           const winner = game?.result;
           if (winner) {
             alert(`${winner} won`);
@@ -51,8 +52,8 @@ const Game = ({ id }: any): any => {
     });
   };
 
-  const Cell = ({ num }: { num: number }) => {
-    return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
+  const Cell = ({ num }: { num: any }) => {
+    return <td onClick={() => handleClick(num)}> {cells[num]}</td>;
   };
 
   return (

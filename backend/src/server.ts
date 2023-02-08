@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 
 import app from './app'
 
-const pool = new Pool({
+export const pool = new Pool({
   user: process.env['PGUSER'],
   host: process.env['PGHOST'],
   database: process.env['PGDATABASE'],
